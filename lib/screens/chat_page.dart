@@ -22,6 +22,7 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     isLight = Theme.of(context).brightness == Brightness.light;
     mqData = MediaQuery.of(context);
+    print(mqData!.size.width);
     return Scaffold(
       appBar: mqData!.orientation == Orientation.portrait
           ? AppBar(
@@ -55,106 +56,110 @@ class ChatScreen extends StatelessWidget {
           : null,
       body: mqData!.orientation == Orientation.portrait
           ? listUI(context: context)
-          : Row(
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 15),
-                          child: LayoutBuilder(builder: (_, constraints) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  "Chats",
-                                  style: TextStyle(
-                                      color: isLight!
-                                          ? Colors.black
-                                          : Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Flexible(
-                                  fit: FlexFit.loose,
-                                  child: SizedBox(
-                                    width: constraints.maxWidth * 0.65,
+          : LayoutBuilder(
+            builder: (_,constraints) {
+              return Row(
+                  children: [
+                    Expanded(
+                        flex: constraints.maxWidth < 1100 ? 4 : 2,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 15),
+                              child: LayoutBuilder(builder: (_, constraints) {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      "Chats",
+                                      style: TextStyle(
+                                          color: isLight!
+                                              ? Colors.black
+                                              : Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Flexible(
+                                      fit: FlexFit.loose,
+                                      child: SizedBox(
+                                        width: constraints.maxWidth * 0.65,
+                                      ),
+                                    ),
+                                    Icon(Icons.edit_note_sharp),
+                                    Icon(Icons.sort)
+                                  ],
+                                );
+                              }),
+                            ),
+                            LayoutBuilder(builder: (_, constraints) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10.0, vertical: 13),
+                                child: SizedBox(
+                                  height: constraints.minHeight + 35,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 1, color: Colors.grey)),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.grey, width: 1)),
+                                        prefixIcon: Icon(Icons.search),
+                                        hintText: "Search or start a new chat",
+                                        hintStyle: TextStyle(fontSize: 15)),
                                   ),
                                 ),
-                                Icon(Icons.edit_note_sharp),
-                                Icon(Icons.sort)
-                              ],
-                            );
-                          }),
-                        ),
-                        LayoutBuilder(builder: (_, constraints) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 13),
-                            child: SizedBox(
-                              height: constraints.minHeight + 35,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 1, color: Colors.grey)),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.grey, width: 1)),
-                                    prefixIcon: Icon(Icons.search),
-                                    hintText: "Search or start a new chat",
-                                    hintStyle: TextStyle(fontSize: 15)),
-                              ),
-                            ),
-                          );
-                        }),
-                        Expanded(child: listUI(context: context)),
-                      ],
-                    )),
-                Expanded(
-                    flex: 5,
-                    child: Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          border: Border(
-                              left: BorderSide(color: Colors.grey, width: 1))),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ClipRRect(
-                              child: Image.asset(
-                            "assets/profiles/logo-removebg-preview.png",
-                            height: 50,
-                          )),
-                          FittedBox(
-                              child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "WhatsApp for Windows",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          )),
-                          FittedBox(
-                              child: Text(
-                            "Send and receive message without keeping your phone online",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.grey),
-                          )),
-                          FittedBox(
-                            child: Text(
-                              "Use whatsapp up to 4 linked devices and 1 phone at the same time",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          )
-                        ],
-                      ),
-                    ))
-              ],
-            ),
+                              );
+                            }),
+                            Expanded(child: listUI(context: context)),
+                          ],
+                        )),
+                    Expanded(
+                        flex: 5,
+                        child: Container(
+                          height: double.infinity,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  left: BorderSide(color: Colors.grey, width: 1))),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ClipRRect(
+                                  child: Image.asset(
+                                "assets/profiles/logo-removebg-preview.png",
+                                height: 50,
+                              )),
+                              FittedBox(
+                                  child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  "WhatsApp for Windows",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              )),
+                              FittedBox(
+                                  child: Text(
+                                "Send and receive message without keeping your phone online",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.grey),
+                              )),
+                              FittedBox(
+                                child: Text(
+                                  "Use whatsapp up to 4 linked devices and 1 phone at the same time",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              )
+                            ],
+                          ),
+                        ))
+                  ],
+                );
+            }
+          ),
       floatingActionButton: mqData!.orientation == Orientation.portrait ? FloatingActionButton(
         onPressed: () {},
         child: Icon(
